@@ -1,0 +1,317 @@
+%% variables
+\newcommand\cardwidth{\linewidth}
+\newcommand\cardheight{\pageheight}
+
+% card evironment
+%% types:
+%%% characters
+%%%% orc -> DONE
+%%%% elf
+%%%% dwarf -> DONE
+%%%% undead
+%%%% neutral
+
+%%%% location
+
+%%% in play cards
+%%%% equipment
+%%%% event
+%%%% enchantment
+%%%% spell
+
+\newenvironment{card}[2] %   #1 - card type  #2 - image name
+    {
+        \csname setCard#1\endcsname{#2}
+    }
+    {
+        \newpage
+    }
+
+%% place a text box
+\newcommand{\placetextbox}[4]{
+  \setbox0=\hbox{#3}
+  \AddToShipoutPictureFG*{
+    \put(\LenToUnit{#1\cardwidth},\LenToUnit{#2\cardheight}){\vtop{{\null}\parbox{#4\cardwidth}{#3}}}
+  }
+}
+
+\newcommand{\cardName}[1]{\placetextbox{\nameX}{\nameY}{\centerline{#1}}{\nameBoxsize}}
+\newcommand{\cardRace}[1]{\placetextbox{\raceX}{\raceY}{\centerline{#1}}{\raceBoxsize}}
+\newcommand{\cardHP}[1]{\placetextbox{\hpX}{\hpY}{#1}{\hpBoxsize}}
+\newcommand{\cardText}[1]{ \placetextbox{\textX}{\textY}{ \fontsize{7}{8}\selectfont \centering #1 }{\textBoxsize} }
+\newcommand{\cardDoubleText}[2]{ \placetextbox{\textX}{\textY}{\fontsize{7}{7.3}\selectfont \centering #1 \newline \includegraphics[width=\cardwidth]{include/misc/simple-divider.png}\newline #2 }{\textBoxsize} }
+
+
+
+%% ORCS
+
+\newcommand{\setCardOrc}[1]{
+    \gdef\nameX{0.08}
+    \gdef\nameY{0.948}
+    \gdef\nameBoxsize{0.4}
+
+    \gdef\raceX{0.52}
+    \gdef\raceY{0.37}
+    \gdef\raceBoxsize{0.3}
+
+    \gdef\hpX{0.83}
+    \gdef\hpY{0.953}
+    \gdef\hpBoxsize{0.1}
+
+    \gdef\textX{0.25}
+    \gdef\textY{0.26}
+    \gdef\textBoxsize{0.65}
+
+    \setOrcBackground{#1}
+}
+
+\newcommand{\setOrcBackground}[1]{
+  \begin{tikzpicture}[overlay, remember picture]
+    \node[opacity=1,inner sep=0pt] at (current page.center)
+      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/characters.jpg}};
+    \node[opacity=1,inner sep=0pt] at (0.457\cardwidth,-0.36\cardheight)
+      {\includegraphics[height=0.54\cardheight]{include/pics/orcs/#1}};
+    \node[opacity=0.8,inner sep=0pt] at (current page.center)
+      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/orc}};
+    \node[opacity=1,inner sep=0pt] at (0.17\cardwidth,-0.05\cardheight)
+      {\includegraphics[width=0.35\cardwidth]{include/misc/scroll_2.png}};
+    \node[opacity=1,inner sep=0pt] at (0.55\cardwidth,-0.63\cardheight)
+      {\includegraphics[width=0.5\cardwidth]{include/misc/scroll_1.png}};
+  \end{tikzpicture}
+}
+
+
+%% DWARFS
+
+\newcommand{\setCardDwarf}[1]{
+    \gdef\nameX{0.08}
+    \gdef\nameY{0.948}
+    \gdef\nameBoxsize{0.4}
+
+    \gdef\raceX{0.51}
+    \gdef\raceY{0.35}
+    \gdef\raceBoxsize{0.3}
+
+    \gdef\hpX{0.8}
+    \gdef\hpY{0.93}
+    \gdef\hpBoxsize{0.1}
+
+    \gdef\textX{0.26}
+    \gdef\textY{0.23}
+    \gdef\textBoxsize{0.6}
+
+    \setDwarfBackground{#1}
+}
+
+\newcommand{\setDwarfBackground}[1]{
+  \begin{tikzpicture}[overlay, remember picture]
+    \node[opacity=1,inner sep=0pt] at (current page.center)
+      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/characters.jpg}};
+    \node[opacity=1,inner sep=0pt] at (0.457\cardwidth,-0.36\cardheight)
+      {\includegraphics[height=0.54\cardheight]{include/pics/dwarfs/#1}};
+    \node[opacity=0.8,inner sep=0pt] at (current page.center)
+      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/dwarf}};
+    \node[opacity=1,inner sep=0pt] at (0.17\cardwidth,-0.05\cardheight)
+      {\includegraphics[width=0.35\cardwidth]{include/misc/scroll_2.png}};
+    \node[opacity=1,inner sep=0pt] at (0.54\cardwidth,-0.65\cardheight)
+      {\includegraphics[width=0.5\cardwidth]{include/misc/scroll_1.png}};
+  \end{tikzpicture}
+}
+
+%% ELVES
+
+\newcommand{\setCardElf}[1]{
+    \gdef\nameX{0.08}
+    \gdef\nameY{0.948}
+    \gdef\nameBoxsize{0.4}
+
+    \gdef\raceX{0.52}
+    \gdef\raceY{0.35}
+    \gdef\raceBoxsize{0.3}
+
+    \gdef\hpX{0.82}
+    \gdef\hpY{0.94}
+    \gdef\hpBoxsize{0.1}
+
+    \gdef\textX{0.29}
+    \gdef\textY{0.23}
+    \gdef\textBoxsize{0.58}
+
+    \setElfBackground{#1}
+}
+
+\newcommand{\setElfBackground}[1]{
+  \begin{tikzpicture}[overlay, remember picture]
+    \node[opacity=1,inner sep=0pt] at (current page.center)
+      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/characters.jpg}};
+    \node[opacity=1,inner sep=0pt] at (0.457\cardwidth,-0.36\cardheight)
+      {\includegraphics[height=0.54\cardheight]{include/pics/elves/#1}};
+    \node[opacity=0.8,inner sep=0pt] at (current page.center)
+      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/elf}};
+    \node[opacity=1,inner sep=0pt] at (0.17\cardwidth,-0.05\cardheight)
+      {\includegraphics[width=0.35\cardwidth]{include/misc/scroll_2.png}};
+    \node[opacity=1,inner sep=0pt] at (0.55\cardwidth,-0.65\cardheight)
+      {\includegraphics[width=0.5\cardwidth]{include/misc/scroll_1.png}};
+  \end{tikzpicture}
+}
+
+%% NEUTRALS
+
+\newcommand{\setCardLongNeutral}[1]{
+    \gdef\nameX{0.08}
+    \gdef\nameY{0.948}
+    \gdef\nameBoxsize{0.4}
+
+    \gdef\raceX{0.52}
+    \gdef\raceY{0.35}
+    \gdef\raceBoxsize{0.3}
+
+    \gdef\hpX{0.80}
+    \gdef\hpY{0.94}
+    \gdef\hpBoxsize{0.1}
+
+    \gdef\textX{0.27}
+    \gdef\textY{0.23}
+    \gdef\textBoxsize{0.58}
+
+    \setNeutralLongBackground{#1}
+}
+
+\newcommand{\setNeutralLongBackground}[1]{
+  \begin{tikzpicture}[overlay, remember picture]
+    \node[opacity=1,inner sep=0pt] at (current page.center)
+      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/characters.jpg}};
+    \node[opacity=1,inner sep=0pt] at (0.457\cardwidth,-0.36\cardheight)
+      {\includegraphics[height=0.54\cardheight]{include/pics/neutrals/#1}};
+    \node[opacity=0.8,inner sep=0pt] at (current page.center)
+      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/neutral_tall}};
+    \node[opacity=1,inner sep=0pt] at (0.17\cardwidth,-0.05\cardheight)
+      {\includegraphics[width=0.35\cardwidth]{include/misc/scroll_2.png}};
+    \node[opacity=1,inner sep=0pt] at (0.55\cardwidth,-0.65\cardheight)
+      {\includegraphics[width=0.5\cardwidth]{include/misc/scroll_1.png}};
+  \end{tikzpicture}
+}
+
+\newcommand{\setCardShortNeutral}[1]{
+    \gdef\nameX{0.08}
+    \gdef\nameY{0.948}
+    \gdef\nameBoxsize{0.4}
+
+    \gdef\raceX{0.51}
+    \gdef\raceY{0.42}
+    \gdef\raceBoxsize{0.3}
+
+    \gdef\hpX{0.80}
+    \gdef\hpY{0.94}
+    \gdef\hpBoxsize{0.1}
+
+    \gdef\textX{0.195}
+    \gdef\textY{0.315}
+    \gdef\textBoxsize{0.70}
+
+    \setNeutralShortBackground{#1}
+}
+
+\newcommand{\setNeutralShortBackground}[1]{
+  \begin{tikzpicture}[overlay, remember picture]
+    \node[opacity=1,inner sep=0pt] at (current page.center)
+      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/characters.jpg}};
+    \node[opacity=1,inner sep=0pt] at (0.457\cardwidth,-0.36\cardheight)
+      {\includegraphics[height=0.54\cardheight]{include/pics/neutrals/#1}};
+    \node[opacity=0.8,inner sep=0pt] at (current page.center)
+      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/neutral_short}};
+    \node[opacity=1,inner sep=0pt] at (0.17\cardwidth,-0.05\cardheight)
+      {\includegraphics[width=0.35\cardwidth]{include/misc/scroll_2.png}};
+    \node[opacity=1,inner sep=0pt] at (0.54\cardwidth,-0.58\cardheight)
+      {\includegraphics[width=0.5\cardwidth]{include/misc/scroll_1.png}};
+  \end{tikzpicture}
+}
+
+% DECK CARDS
+
+% SPELLS
+\newcommand{\setCardSpell}[1]{
+    \gdef\nameX{0.2}
+    \gdef\nameY{0.975}
+    \gdef\nameBoxsize{0.6}
+
+    \gdef\raceX{0.12}
+    \gdef\raceY{0.4}
+    \gdef\raceBoxsize{0.3}
+
+    \gdef\textX{0.14}
+    \gdef\textY{0.3}
+    \gdef\textBoxsize{0.7}
+
+    \setSpellBackground{#1}
+}
+
+\newcommand{\setSpellBackground}[1]{
+  \begin{tikzpicture}[overlay, remember picture]
+    \node[opacity=1,inner sep=0pt] at (current page.center)
+      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/decks.jpg}};
+    \node[opacity=1,inner sep=0pt] at (0.4\cardwidth,-0.33\cardheight)
+      {\includegraphics[height=0.54\cardheight]{include/pics/dwarfs/#1}};
+    \node[opacity=0.8,inner sep=0pt] at (current page.center)
+      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/spell.png}};
+  \end{tikzpicture}
+  \cardRace{Spell}
+}
+
+% Equipment
+\newcommand{\setCardEquipment}[1]{
+    \gdef\nameX{0.2}
+    \gdef\nameY{0.975}
+    \gdef\nameBoxsize{0.6}
+
+    \gdef\raceX{0.11}
+    \gdef\raceY{0.4}
+    \gdef\raceBoxsize{0.3}
+
+    \gdef\textX{0.14}
+    \gdef\textY{0.3}
+    \gdef\textBoxsize{0.7}
+
+    \setEquipmentBackground{#1}
+}
+
+\newcommand{\setEquipmentBackground}[1]{
+  \begin{tikzpicture}[overlay, remember picture]
+    \node[opacity=1,inner sep=0pt] at (current page.center)
+      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/decks.jpg}};
+    \node[opacity=1,inner sep=0pt] at (0.4\cardwidth,-0.33\cardheight)
+      {\includegraphics[height=0.54\cardheight]{include/pics/dwarfs/#1}};
+    \node[opacity=0.8,inner sep=0pt] at (current page.center)
+      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/equipment.png}};
+  \end{tikzpicture}
+  \cardRace{Equipment}
+}
+
+% Event
+\newcommand{\setCardEvent}[1]{
+    \gdef\nameX{0.2}
+    \gdef\nameY{0.975}
+    \gdef\nameBoxsize{0.6}
+
+    \gdef\raceX{0.12}
+    \gdef\raceY{0.4}
+    \gdef\raceBoxsize{0.3}
+
+    \gdef\textX{0.14}
+    \gdef\textY{0.3}
+    \gdef\textBoxsize{0.7}
+
+    \setEventBackground{#1}
+}
+
+\newcommand{\setEventBackground}[1]{
+  \begin{tikzpicture}[overlay, remember picture]
+    \node[opacity=1,inner sep=0pt] at (current page.center)
+      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/decks.jpg}};
+    \node[opacity=1,inner sep=0pt] at (0.4\cardwidth,-0.33\cardheight)
+      {\includegraphics[height=0.54\cardheight]{include/pics/dwarfs/#1}};
+    \node[opacity=0.8,inner sep=0pt] at (current page.center)
+      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/event.png}};
+  \end{tikzpicture}
+  \cardRace{Event}
+}
