@@ -3,25 +3,31 @@
 \newcommand\cardheight{\pageheight}
 
 % card evironment
-%% types:
-%%% characters
+%% #1 card class:
+%%% characters:
 %%%% orc -> DONE
 %%%% elf
 %%%% dwarf -> DONE
 %%%% undead
 %%%% neutral
-
-%%%% location
-
-%%% in play cards
+%%% in play cards:
 %%%% equipment
 %%%% event
 %%%% enchantment
 %%%% spell
 
-\newenvironment{card}[2] %   #1 - card type  #2 - image name
+%   #2 - image name
+
+%   #3 - deck type
+%%%% Combat
+%%%% Divine
+%%%% Sorcery
+%%%% Character
+
+\newenvironment{card}[2]
+
     {
-        \csname setCard#1\endcsname{#2}
+        \csname setCard#1\endcsname{#2}{#3}
     }
     {
         \newpage
@@ -129,8 +135,8 @@
     \gdef\raceY{0.35}
     \gdef\raceBoxsize{0.3}
 
-    \gdef\hpX{0.82}
-    \gdef\hpY{0.94}
+    \gdef\hpX{0.823}
+    \gdef\hpY{0.945}
     \gdef\hpBoxsize{0.1}
 
     \gdef\textX{0.29}
