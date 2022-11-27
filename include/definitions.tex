@@ -1,6 +1,7 @@
 %% variables
 \newcommand\cardwidth{\linewidth}
 \newcommand\cardheight{\pageheight}
+\newcommand\brackgroundColor{gray} % gray
 
 % card evironment
 
@@ -13,15 +14,15 @@
 %% #2 card class:
 %%% characters:
 %%%% orc -> DONE
-%%%% elf
+%%%% elf -> DONE
 %%%% dwarf -> DONE
 %%%% undead
-%%%% neutral
+%%%% neutral -> DONE
 %%% in play cards:
-%%%% equipment
-%%%% event
-%%%% enchantment
-%%%% spell
+%%%% equipment -> DONE
+%%%% event -> DONE
+%%%% enchantment -> DONE
+%%%% spell -> DONE
 
 %   #3 - image name
 
@@ -43,15 +44,15 @@
 }
 
 %% place a text box
-\newcommand{\placewesttextbox}[4]{
-  \setbox0=\hbox{#3}
-  \AddToShipoutPictureFG*{
-    \put(\LenToUnit{#1\cardwidth},\LenToUnit{#2\cardheight}){\vtop{{\null}\parbox{#4\cardwidth}{#3}}}
-  }
-}
+% \newcommand{\placewesttextbox}[4]{
+%   \setbox0=\hbox{#3}
+%   \AddToShipoutPictureFG*{
+%     \put(\LenToUnit{#1\cardwidth},\LenToUnit{#2\cardheight}){\vtop{{\null}\parbox{#4\cardwidth}{#3}}}
+%   }
+% }
 
-\newcommand{\cardName}[1]{\placewesttextbox{\nameX}{\nameY}{\centerline{#1}}{\nameBoxsize}}
-\newcommand{\cardRace}[1]{\placetextbox{\raceX}{\raceY}{\centerline{#1}}{\raceBoxsize}}
+\newcommand{\cardName}[1]{\placetextbox{\nameX}{\nameY}{\centerline{#1}}{\nameBoxsize}}
+\newcommand{\cardRace}[1]{\placetextbox{\raceX}{\raceY}{ \fontsize{8}{8.3}\selectfont\centerline{#1}}{\raceBoxsize}}
 \newcommand{\cardHP}[1]{\placetextbox{\hpX}{\hpY}{#1}{\hpBoxsize}}
 \newcommand{\cardText}[1]{ \placetextbox{\textX}{\textY}{ \fontsize{7}{8}\selectfont \centering #1 }{\textBoxsize} }
 \newcommand{\cardDoubleText}[2]{ \placetextbox{\textX}{\textY}{\fontsize{7}{7.3}\selectfont \centering #1 \newline \includegraphics[width=\cardwidth]{include/misc/simple-divider.png}\newline #2 }{\textBoxsize} }
@@ -86,6 +87,12 @@
       {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/characters.jpg}};
     \node[opacity=1,inner sep=0pt] at (0.457\cardwidth,-0.36\cardheight)
       {\includegraphics[height=0.54\cardheight]{include/pics/orcs/#1}};
+
+    \fill[\brackgroundColor] (-0.12\cardwidth,0.5\cardheight) rectangle (0.1\cardwidth,-1\cardheight); % left
+    \fill[\brackgroundColor] (0.805\cardwidth,0.5\cardheight) rectangle (0.95\cardwidth,-1\cardheight); % right
+    \fill[\brackgroundColor] (-0.12\cardwidth,-0.054\cardheight) rectangle (0.9\cardwidth,0.1\cardheight); % top
+    \fill[\brackgroundColor] (-0.12\cardwidth,-0.65\cardheight) rectangle (0.9\cardwidth,-1\cardheight); % bot
+
     \node[opacity=0.8,inner sep=0pt] at (current page.center)
       {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/orc}};
     \node[opacity=1,inner sep=0pt] at (0.17\cardwidth,-0.05\cardheight)
@@ -124,6 +131,12 @@
       {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/characters.jpg}};
     \node[opacity=1,inner sep=0pt] at (0.457\cardwidth,-0.36\cardheight)
       {\includegraphics[height=0.54\cardheight]{include/pics/dwarfs/#1}};
+
+    \fill[\brackgroundColor] (-0.12\cardwidth,0.5\cardheight) rectangle (0.05\cardwidth,-1\cardheight); % left
+    \fill[\brackgroundColor] (0.805\cardwidth,0.5\cardheight) rectangle (0.95\cardwidth,-1\cardheight); % right
+    \fill[\brackgroundColor] (-0.12\cardwidth,-0.11\cardheight) rectangle (0.9\cardwidth,0.13\cardheight); % top
+    \fill[\brackgroundColor] (-0.12\cardwidth,-0.65\cardheight) rectangle (0.9\cardwidth,-1\cardheight); % bot
+
     \node[opacity=0.8,inner sep=0pt] at (current page.center)
       {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/dwarf}};
     \node[opacity=1,inner sep=0pt] at (0.17\cardwidth,-0.05\cardheight)
@@ -161,6 +174,12 @@
       {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/characters.jpg}};
     \node[opacity=1,inner sep=0pt] at (0.457\cardwidth,-0.36\cardheight)
       {\includegraphics[height=0.54\cardheight]{include/pics/elves/#1}};
+
+    \fill[\brackgroundColor] (-0.12\cardwidth,0.5\cardheight) rectangle (0.08\cardwidth,-1\cardheight); % left
+    \fill[\brackgroundColor] (0.815\cardwidth,0.5\cardheight) rectangle (0.95\cardwidth,-1\cardheight); % right
+    \fill[\brackgroundColor] (-0.12\cardwidth,-0.105\cardheight) rectangle (0.9\cardwidth,0.1\cardheight); % top
+    \fill[\brackgroundColor] (-0.12\cardwidth,-0.64\cardheight) rectangle (0.9\cardwidth,-1\cardheight); % bot
+
     \node[opacity=0.8,inner sep=0pt] at (current page.center)
       {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/elf}};
     \node[opacity=1,inner sep=0pt] at (0.17\cardwidth,-0.05\cardheight)
@@ -171,6 +190,7 @@
 }
 
 %% NEUTRALS
+%% LONG
 
 \newcommand{\setCardLongNeutral}[2]{
     \gdef\nameX{0.08}
@@ -197,7 +217,13 @@
     \node[opacity=1,inner sep=0pt] at (current page.center)
       {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/characters.jpg}};
     \node[opacity=1,inner sep=0pt] at (0.457\cardwidth,-0.36\cardheight)
-      {\includegraphics[height=0.54\cardheight]{include/pics/neutrals/#1}};
+      {\includegraphics[height=0.57\cardheight]{include/pics/neutrals/#1}};
+
+    \fill[\brackgroundColor] (-0.12\cardwidth,0.5\cardheight) rectangle (0.04\cardwidth,-1\cardheight); % left
+    \fill[\brackgroundColor] (0.815\cardwidth,0.5\cardheight) rectangle (0.95\cardwidth,-1\cardheight); % right
+    \fill[\brackgroundColor] (-0.12\cardwidth,-0.105\cardheight) rectangle (0.9\cardwidth,0.1\cardheight); % top
+    \fill[\brackgroundColor] (-0.12\cardwidth,-0.64\cardheight) rectangle (0.9\cardwidth,-1\cardheight); % bot
+
     \node[opacity=0.8,inner sep=0pt] at (current page.center)
       {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/neutral_tall}};
     \node[opacity=1,inner sep=0pt] at (0.17\cardwidth,-0.05\cardheight)
@@ -206,6 +232,9 @@
       {\includegraphics[width=0.5\cardwidth]{include/misc/scroll_1.png}};
   \end{tikzpicture}
 }
+
+%% NEUTRALS
+%% SHORT
 
 \newcommand{\setCardShortNeutral}[2]{
     \gdef\nameX{0.08}
@@ -221,7 +250,7 @@
     \gdef\hpBoxsize{0.1}
 
     \gdef\textX{0.195}
-    \gdef\textY{0.315}
+    \gdef\textY{0.305}
     \gdef\textBoxsize{0.70}
 
     \setNeutralShortBackground{#1}
@@ -233,13 +262,20 @@
       {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/characters.jpg}};
     \node[opacity=1,inner sep=0pt] at (0.457\cardwidth,-0.36\cardheight)
       {\includegraphics[height=0.54\cardheight]{include/pics/neutrals/#1}};
+
+    \fill[\brackgroundColor] (-0.12\cardwidth,0.5\cardheight) rectangle (0.04\cardwidth,-1\cardheight); % left
+    \fill[\brackgroundColor] (0.815\cardwidth,0.5\cardheight) rectangle (0.95\cardwidth,-1\cardheight); % right
+    \fill[\brackgroundColor] (-0.12\cardwidth,-0.105\cardheight) rectangle (0.9\cardwidth,0.1\cardheight); % top
+    \fill[\brackgroundColor] (-0.12\cardwidth,-0.575\cardheight) rectangle (0.9\cardwidth,-1\cardheight); % bot
+
     \node[opacity=0.8,inner sep=0pt] at (current page.center)
       {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/neutral_short}};
-
-    \node[opacity=1,inner sep=0pt, anchor=west] at (0.17\cardwidth,-0.05\cardheight)
-      {\includegraphics[width=0.48\cardwidth]{include/misc/scroll_1.png}};
+    % \stringlength{}
+    \node[opacity=1,inner sep=0pt, anchor=west] at (-0.08\cardwidth,-0.05\cardheight)
+        {\includegraphics[width=0.48\cardwidth]{include/misc/scroll_1.png}};
     % \node[opacity=1,inner sep=0pt,anchor=west] at (0.17\cardwidth,-0.05\cardheight)
     %   {\includegraphics[width=0.35\cardwidth]{include/misc/scroll_2.png}};
+    % {\includegraphics[width=0.58\cardwidth,height=1.9em,keepaspectratio=false]{include/misc/scroll_1.png}};
 
     \node[opacity=1,inner sep=0pt] at (0.54\cardwidth,-0.58\cardheight)
       {\includegraphics[width=0.5\cardwidth]{include/misc/scroll_1.png}};
@@ -248,7 +284,10 @@
 
 % DECK CARDS
 
-% SPELLS
+%%%%%%%%%%
+% SPELLS %
+%%%%%%%%%%
+
 \newcommand{\setCardSpell}[2]{
     \gdef\nameX{0.2}
     \gdef\nameY{0.975}
@@ -270,14 +309,23 @@
     \node[opacity=1,inner sep=0pt] at (current page.center)
       {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/decks.jpg}};
     \node[opacity=1,inner sep=0pt] at (0.4\cardwidth,-0.33\cardheight)
-      {\includegraphics[height=0.54\cardheight]{include/pics/dwarfs/#1}};
+      {\includegraphics[height=0.54\cardheight]{include/pics/decks/#1}};
+
+    % to mask overflowing images I am repaining every card gray before I typeset the rest on top of it
+    \fill[\brackgroundColor] (-0.12\cardwidth,0.5\cardheight) rectangle (0.0\cardwidth,-1\cardheight); % left
+    \fill[\brackgroundColor] (0.765\cardwidth,0.5\cardheight) rectangle (0.9\cardwidth,-1\cardheight); % right
+    \fill[\brackgroundColor] (-0.12\cardwidth,-0.058\cardheight) rectangle (0.9\cardwidth,0.1\cardheight); % top
+    \fill[\brackgroundColor] (-0.12\cardwidth,-0.55\cardheight) rectangle (0.9\cardwidth,-1\cardheight); % bot
+
     \node[opacity=0.8,inner sep=0pt] at (current page.center)
       {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/spell.png}};
   \end{tikzpicture}
-  \cardRace{Spell}
 }
 
-% Equipment
+%%%%%%%%%%%%%
+% Equipment %
+%%%%%%%%%%%%%
+
 \newcommand{\setCardEquipment}[2]{
     \gdef\nameX{0.2}
     \gdef\nameY{0.975}
@@ -298,15 +346,103 @@
   \begin{tikzpicture}[overlay, remember picture]
     \node[opacity=1,inner sep=0pt] at (current page.center)
       {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/decks.jpg}};
-    \node[opacity=1,inner sep=0pt] at (0.4\cardwidth,-0.33\cardheight)
-      {\includegraphics[height=0.54\cardheight]{include/pics/dwarfs/#1}};
+      \node[opacity=1,inner sep=0pt] at (0.4\cardwidth,-0.33\cardheight)
+        {\includegraphics[height=0.54\cardheight]{include/pics/decks/#1}};
+
+    % to mask overflowing images I am repaining every card gray before I typeset the rest on top of it
+    \fill[\brackgroundColor] (-0.12\cardwidth,0.5\cardheight) rectangle (-0.01\cardwidth,-1\cardheight); % left
+    \fill[\brackgroundColor] (0.77\cardwidth,0.5\cardheight) rectangle (0.9\cardwidth,-1\cardheight); % right
+    \fill[\brackgroundColor] (-0.12\cardwidth,-0.054\cardheight) rectangle (0.9\cardwidth,0.1\cardheight); % top
+    \fill[\brackgroundColor] (-0.12\cardwidth,-0.55\cardheight) rectangle (0.9\cardwidth,-1\cardheight); % bot
+
     \node[opacity=0.8,inner sep=0pt] at (current page.center)
       {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/equipment.png}};
   \end{tikzpicture}
-  \cardRace{Equipment}
 }
 
-% Event
+
+%%%%%%%%%%%%%
+% Equipment %
+%  SHIELD   %
+%%%%%%%%%%%%%
+
+\newcommand{\setCardEquipmentShield}[2]{
+    \gdef\nameX{0.2}
+    \gdef\nameY{0.975}
+    \gdef\nameBoxsize{0.6}
+
+    \gdef\raceX{0.16}
+    \gdef\raceY{0.4}
+    \gdef\raceBoxsize{0.3}
+
+    \gdef\textX{0.16}
+    \gdef\textY{0.28}
+    \gdef\textBoxsize{0.7}
+
+    \setEquipmentShieldBackground{#1}
+}
+
+\newcommand{\setEquipmentShieldBackground}[1]{
+  \begin{tikzpicture}[overlay, remember picture]
+    \node[opacity=1,inner sep=0pt] at (current page.center)
+      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/decks.jpg}};
+      \node[opacity=1,inner sep=0pt] at (0.4\cardwidth,-0.33\cardheight)
+        {\includegraphics[height=0.54\cardheight]{include/pics/decks/#1}};
+
+    % to mask overflowing images I am repaining every card gray before I typeset the rest on top of it
+    \fill[\brackgroundColor] (-0.12\cardwidth,0.5\cardheight) rectangle (-0.01\cardwidth,-1\cardheight); % left
+    \fill[\brackgroundColor] (0.77\cardwidth,0.5\cardheight) rectangle (0.9\cardwidth,-1\cardheight); % right
+    \fill[\brackgroundColor] (-0.12\cardwidth,-0.054\cardheight) rectangle (0.9\cardwidth,0.1\cardheight); % top
+    \fill[\brackgroundColor] (-0.12\cardwidth,-0.55\cardheight) rectangle (0.9\cardwidth,-1\cardheight); % bot
+
+    \node[opacity=0.8,inner sep=0pt] at (current page.center)
+      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/equipment-shield.png}};
+  \end{tikzpicture}
+}
+
+%%%%%%%%%%%%%
+% Equipment %
+%  WEAPON   %
+%%%%%%%%%%%%%
+
+\newcommand{\setCardEquipmentWeapon}[2]{
+    \gdef\nameX{0.2}
+    \gdef\nameY{0.975}
+    \gdef\nameBoxsize{0.6}
+
+    \gdef\raceX{0.19}
+    \gdef\raceY{0.4}
+    \gdef\raceBoxsize{0.3}
+
+    \gdef\textX{0.16}
+    \gdef\textY{0.28}
+    \gdef\textBoxsize{0.7}
+
+    \setEquipmentWeaponBackground{#1}
+}
+
+\newcommand{\setEquipmentWeaponBackground}[1]{
+  \begin{tikzpicture}[overlay, remember picture]
+    \node[opacity=1,inner sep=0pt] at (current page.center)
+      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/decks.jpg}};
+      \node[opacity=1,inner sep=0pt] at (0.4\cardwidth,-0.33\cardheight)
+        {\includegraphics[height=0.54\cardheight]{include/pics/decks/#1}};
+
+    % to mask overflowing images I am repaining every card gray before I typeset the rest on top of it
+    \fill[\brackgroundColor] (-0.12\cardwidth,0.5\cardheight) rectangle (0.0\cardwidth,-1\cardheight); % left
+    \fill[\brackgroundColor] (0.77\cardwidth,0.5\cardheight) rectangle (0.95\cardwidth,-1\cardheight); % right
+    \fill[\brackgroundColor] (-0.12\cardwidth,-0.054\cardheight) rectangle (0.9\cardwidth,0.1\cardheight); % top
+    \fill[\brackgroundColor] (-0.12\cardwidth,-0.55\cardheight) rectangle (0.9\cardwidth,-1\cardheight); % bot
+
+    \node[opacity=0.8,inner sep=0pt] at (current page.center)
+      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/equipment-weapon.png}};
+  \end{tikzpicture}
+}
+
+%%%%%%%%%
+% Event %
+%%%%%%%%%
+
 \newcommand{\setCardEvent}[2]{
     \gdef\nameX{0.2}
     \gdef\nameY{0.975}
@@ -328,9 +464,45 @@
     \node[opacity=1,inner sep=0pt] at (current page.center)
       {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/decks.jpg}};
     \node[opacity=1,inner sep=0pt] at (0.4\cardwidth,-0.33\cardheight)
-      {\includegraphics[height=0.54\cardheight]{include/pics/dwarfs/#1}};
+      {\includegraphics[height=0.54\cardheight]{include/pics/decks/#1}};
     \node[opacity=0.8,inner sep=0pt] at (current page.center)
       {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/event.png}};
   \end{tikzpicture}
-  \cardRace{Event}
+}
+
+%%%%%%%%%%%%%%%
+% Enchantment %
+%%%%%%%%%%%%%%%
+
+\newcommand{\setCardEnchantment}[2]{
+    \gdef\nameX{0.2}
+    \gdef\nameY{0.975}
+    \gdef\nameBoxsize{0.6}
+
+    \gdef\raceX{0.12}
+    \gdef\raceY{0.4}
+    \gdef\raceBoxsize{0.3}
+
+    \gdef\textX{0.14}
+    \gdef\textY{0.3}
+    \gdef\textBoxsize{0.7}
+
+    \setEnchantmentBackground{#1}
+}
+
+\newcommand{\setEnchantmentBackground}[1]{
+  \begin{tikzpicture}[overlay, remember picture]
+    \node[opacity=1,inner sep=0pt] at (current page.center)
+      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/decks.jpg}};
+    \node[opacity=1,inner sep=0pt] at (0.4\cardwidth,-0.33\cardheight)
+      {\includegraphics[height=0.54\cardheight]{include/pics/decks/#1}};
+
+    \fill[\brackgroundColor] (-0.12\cardwidth,0.5\cardheight) rectangle (0.0\cardwidth,-1\cardheight); % left
+    \fill[\brackgroundColor] (0.77\cardwidth,0.5\cardheight) rectangle (0.95\cardwidth,-1\cardheight); % right
+    \fill[\brackgroundColor] (-0.12\cardwidth,-0.054\cardheight) rectangle (0.9\cardwidth,0.1\cardheight); % top
+    \fill[\brackgroundColor] (-0.12\cardwidth,-0.55\cardheight) rectangle (0.9\cardwidth,-1\cardheight); % bot
+
+    \node[opacity=0.8,inner sep=0pt] at (current page.center)
+      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/spell.png}};
+  \end{tikzpicture}
 }
