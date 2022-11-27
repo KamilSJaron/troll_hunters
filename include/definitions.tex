@@ -3,7 +3,14 @@
 \newcommand\cardheight{\pageheight}
 
 % card evironment
-%% #1 card class:
+
+%   #1 - deck type
+%%%% Combat
+%%%% Divine
+%%%% Sorcery
+%%%% Character
+
+%% #2 card class:
 %%% characters:
 %%%% orc -> DONE
 %%%% elf
@@ -16,18 +23,12 @@
 %%%% enchantment
 %%%% spell
 
-%   #2 - image name
+%   #3 - image name
 
-%   #3 - deck type
-%%%% Combat
-%%%% Divine
-%%%% Sorcery
-%%%% Character
 
-\newenvironment{card}[2]
-
+\newenvironment{card}[3]
     {
-        \csname setCard#1\endcsname{#2}{#3}
+        \csname setCard#2\endcsname{#3}{#1}
     }
     {
         \newpage
@@ -41,7 +42,15 @@
   }
 }
 
-\newcommand{\cardName}[1]{\placetextbox{\nameX}{\nameY}{\centerline{#1}}{\nameBoxsize}}
+%% place a text box
+\newcommand{\placewesttextbox}[4]{
+  \setbox0=\hbox{#3}
+  \AddToShipoutPictureFG*{
+    \put(\LenToUnit{#1\cardwidth},\LenToUnit{#2\cardheight}){\vtop{{\null}\parbox{#4\cardwidth}{#3}}}
+  }
+}
+
+\newcommand{\cardName}[1]{\placewesttextbox{\nameX}{\nameY}{\centerline{#1}}{\nameBoxsize}}
 \newcommand{\cardRace}[1]{\placetextbox{\raceX}{\raceY}{\centerline{#1}}{\raceBoxsize}}
 \newcommand{\cardHP}[1]{\placetextbox{\hpX}{\hpY}{#1}{\hpBoxsize}}
 \newcommand{\cardText}[1]{ \placetextbox{\textX}{\textY}{ \fontsize{7}{8}\selectfont \centering #1 }{\textBoxsize} }
@@ -51,7 +60,7 @@
 
 %% ORCS
 
-\newcommand{\setCardOrc}[1]{
+\newcommand{\setCardOrc}[2]{
     \gdef\nameX{0.08}
     \gdef\nameY{0.948}
     \gdef\nameBoxsize{0.4}
@@ -89,7 +98,7 @@
 
 %% DWARFS
 
-\newcommand{\setCardDwarf}[1]{
+\newcommand{\setCardDwarf}[2]{
     \gdef\nameX{0.08}
     \gdef\nameY{0.948}
     \gdef\nameBoxsize{0.4}
@@ -126,7 +135,7 @@
 
 %% ELVES
 
-\newcommand{\setCardElf}[1]{
+\newcommand{\setCardElf}[2]{
     \gdef\nameX{0.08}
     \gdef\nameY{0.948}
     \gdef\nameBoxsize{0.4}
@@ -163,7 +172,7 @@
 
 %% NEUTRALS
 
-\newcommand{\setCardLongNeutral}[1]{
+\newcommand{\setCardLongNeutral}[2]{
     \gdef\nameX{0.08}
     \gdef\nameY{0.948}
     \gdef\nameBoxsize{0.4}
@@ -198,7 +207,7 @@
   \end{tikzpicture}
 }
 
-\newcommand{\setCardShortNeutral}[1]{
+\newcommand{\setCardShortNeutral}[2]{
     \gdef\nameX{0.08}
     \gdef\nameY{0.948}
     \gdef\nameBoxsize{0.4}
@@ -226,8 +235,12 @@
       {\includegraphics[height=0.54\cardheight]{include/pics/neutrals/#1}};
     \node[opacity=0.8,inner sep=0pt] at (current page.center)
       {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/neutral_short}};
-    \node[opacity=1,inner sep=0pt] at (0.17\cardwidth,-0.05\cardheight)
-      {\includegraphics[width=0.35\cardwidth]{include/misc/scroll_2.png}};
+
+    \node[opacity=1,inner sep=0pt, anchor=west] at (0.17\cardwidth,-0.05\cardheight)
+      {\includegraphics[width=0.48\cardwidth]{include/misc/scroll_1.png}};
+    % \node[opacity=1,inner sep=0pt,anchor=west] at (0.17\cardwidth,-0.05\cardheight)
+    %   {\includegraphics[width=0.35\cardwidth]{include/misc/scroll_2.png}};
+
     \node[opacity=1,inner sep=0pt] at (0.54\cardwidth,-0.58\cardheight)
       {\includegraphics[width=0.5\cardwidth]{include/misc/scroll_1.png}};
   \end{tikzpicture}
@@ -236,7 +249,7 @@
 % DECK CARDS
 
 % SPELLS
-\newcommand{\setCardSpell}[1]{
+\newcommand{\setCardSpell}[2]{
     \gdef\nameX{0.2}
     \gdef\nameY{0.975}
     \gdef\nameBoxsize{0.6}
@@ -265,7 +278,7 @@
 }
 
 % Equipment
-\newcommand{\setCardEquipment}[1]{
+\newcommand{\setCardEquipment}[2]{
     \gdef\nameX{0.2}
     \gdef\nameY{0.975}
     \gdef\nameBoxsize{0.6}
@@ -294,7 +307,7 @@
 }
 
 % Event
-\newcommand{\setCardEvent}[1]{
+\newcommand{\setCardEvent}[2]{
     \gdef\nameX{0.2}
     \gdef\nameY{0.975}
     \gdef\nameBoxsize{0.6}
