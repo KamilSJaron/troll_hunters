@@ -2,6 +2,8 @@
 \newcommand\cardwidth{\linewidth}
 \newcommand\cardheight{\pageheight}
 \newcommand\brackgroundColor{gray} % gray
+\def\scrollOneThresh{10}
+\def\backgroundOpacity{1}
 
 % card evironment
 
@@ -86,19 +88,28 @@
     \node[opacity=1,inner sep=0pt] at (current page.center)
       {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/characters.jpg}};
     \node[opacity=1,inner sep=0pt] at (0.457\cardwidth,-0.36\cardheight)
-      {\includegraphics[height=0.54\cardheight]{include/pics/orcs/#1}};
+      {\includegraphics[height=0.54\cardheight]{include/pics/characters/#1}};
 
     \fill[\brackgroundColor] (-0.12\cardwidth,0.5\cardheight) rectangle (0.1\cardwidth,-1\cardheight); % left
     \fill[\brackgroundColor] (0.805\cardwidth,0.5\cardheight) rectangle (0.95\cardwidth,-1\cardheight); % right
     \fill[\brackgroundColor] (-0.12\cardwidth,-0.054\cardheight) rectangle (0.9\cardwidth,0.1\cardheight); % top
     \fill[\brackgroundColor] (-0.12\cardwidth,-0.65\cardheight) rectangle (0.9\cardwidth,-1\cardheight); % bot
 
-    \node[opacity=0.8,inner sep=0pt] at (current page.center)
+    \node[opacity=\backgroundOpacity,inner sep=0pt] at (current page.center)
       {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/orc}};
-    \node[opacity=1,inner sep=0pt] at (0.17\cardwidth,-0.05\cardheight)
-      {\includegraphics[width=0.35\cardwidth]{include/misc/scroll_2.png}};
-    \node[opacity=1,inner sep=0pt] at (0.55\cardwidth,-0.63\cardheight)
+
+    \StrLen{#1}[\picNameLen]
+    \ifthenelse{\picNameLen > \scrollOneThresh}{
+      \node[opacity=1,inner sep=0pt] at (0.17\cardwidth,-0.05\cardheight)
       {\includegraphics[width=0.5\cardwidth]{include/misc/scroll_1.png}};
+    }{
+      \node[opacity=1,inner sep=0pt] at (0.17\cardwidth,-0.05\cardheight)
+      {\includegraphics[width=0.35\cardwidth]{include/misc/scroll_2.png}};
+    }
+
+    \node[opacity=1,inner sep=0pt] at (0.55\cardwidth,-0.63\cardheight)
+    {\includegraphics[width=0.5\cardwidth]{include/misc/scroll_1.png}};
+
   \end{tikzpicture}
 }
 
@@ -130,17 +141,25 @@
     \node[opacity=1,inner sep=0pt] at (current page.center)
       {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/characters.jpg}};
     \node[opacity=1,inner sep=0pt] at (0.457\cardwidth,-0.36\cardheight)
-      {\includegraphics[height=0.54\cardheight]{include/pics/dwarfs/#1}};
+      {\includegraphics[height=0.54\cardheight]{include/pics/characters/#1}};
 
     \fill[\brackgroundColor] (-0.12\cardwidth,0.5\cardheight) rectangle (0.05\cardwidth,-1\cardheight); % left
     \fill[\brackgroundColor] (0.805\cardwidth,0.5\cardheight) rectangle (0.95\cardwidth,-1\cardheight); % right
     \fill[\brackgroundColor] (-0.12\cardwidth,-0.11\cardheight) rectangle (0.9\cardwidth,0.13\cardheight); % top
     \fill[\brackgroundColor] (-0.12\cardwidth,-0.65\cardheight) rectangle (0.9\cardwidth,-1\cardheight); % bot
 
-    \node[opacity=0.8,inner sep=0pt] at (current page.center)
+    \node[opacity=\backgroundOpacity,inner sep=0pt] at (current page.center)
       {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/dwarf}};
-    \node[opacity=1,inner sep=0pt] at (0.17\cardwidth,-0.05\cardheight)
+
+    \StrLen{#1}[\picNameLen]
+    \ifthenelse{\picNameLen > \scrollOneThresh}{
+      \node[opacity=1,inner sep=0pt] at (0.17\cardwidth,-0.05\cardheight)
+      {\includegraphics[width=0.5\cardwidth]{include/misc/scroll_1.png}};
+    }{
+      \node[opacity=1,inner sep=0pt] at (0.17\cardwidth,-0.05\cardheight)
       {\includegraphics[width=0.35\cardwidth]{include/misc/scroll_2.png}};
+    }
+
     \node[opacity=1,inner sep=0pt] at (0.54\cardwidth,-0.65\cardheight)
       {\includegraphics[width=0.5\cardwidth]{include/misc/scroll_1.png}};
   \end{tikzpicture}
@@ -173,14 +192,14 @@
     \node[opacity=1,inner sep=0pt] at (current page.center)
       {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/characters.jpg}};
     \node[opacity=1,inner sep=0pt] at (0.457\cardwidth,-0.36\cardheight)
-      {\includegraphics[height=0.54\cardheight]{include/pics/elves/#1}};
+      {\includegraphics[height=0.54\cardheight]{include/pics/characters/#1}};
 
     \fill[\brackgroundColor] (-0.12\cardwidth,0.5\cardheight) rectangle (0.08\cardwidth,-1\cardheight); % left
     \fill[\brackgroundColor] (0.815\cardwidth,0.5\cardheight) rectangle (0.95\cardwidth,-1\cardheight); % right
     \fill[\brackgroundColor] (-0.12\cardwidth,-0.105\cardheight) rectangle (0.9\cardwidth,0.1\cardheight); % top
     \fill[\brackgroundColor] (-0.12\cardwidth,-0.64\cardheight) rectangle (0.9\cardwidth,-1\cardheight); % bot
 
-    \node[opacity=0.8,inner sep=0pt] at (current page.center)
+    \node[opacity=\backgroundOpacity,inner sep=0pt] at (current page.center)
       {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/elf}};
     \node[opacity=1,inner sep=0pt] at (0.17\cardwidth,-0.05\cardheight)
       {\includegraphics[width=0.35\cardwidth]{include/misc/scroll_2.png}};
@@ -217,14 +236,14 @@
     \node[opacity=1,inner sep=0pt] at (current page.center)
       {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/characters.jpg}};
     \node[opacity=1,inner sep=0pt] at (0.457\cardwidth,-0.36\cardheight)
-      {\includegraphics[height=0.57\cardheight]{include/pics/neutrals/#1}};
+      {\includegraphics[height=0.57\cardheight]{include/pics/characters/#1}};
 
     \fill[\brackgroundColor] (-0.12\cardwidth,0.5\cardheight) rectangle (0.04\cardwidth,-1\cardheight); % left
     \fill[\brackgroundColor] (0.815\cardwidth,0.5\cardheight) rectangle (0.95\cardwidth,-1\cardheight); % right
     \fill[\brackgroundColor] (-0.12\cardwidth,-0.105\cardheight) rectangle (0.9\cardwidth,0.1\cardheight); % top
     \fill[\brackgroundColor] (-0.12\cardwidth,-0.64\cardheight) rectangle (0.9\cardwidth,-1\cardheight); % bot
 
-    \node[opacity=0.8,inner sep=0pt] at (current page.center)
+    \node[opacity=\backgroundOpacity,inner sep=0pt] at (current page.center)
       {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/neutral_tall}};
     \node[opacity=1,inner sep=0pt] at (0.17\cardwidth,-0.05\cardheight)
       {\includegraphics[width=0.35\cardwidth]{include/misc/scroll_2.png}};
@@ -261,14 +280,14 @@
     \node[opacity=1,inner sep=0pt] at (current page.center)
       {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/characters.jpg}};
     \node[opacity=1,inner sep=0pt] at (0.457\cardwidth,-0.36\cardheight)
-      {\includegraphics[height=0.54\cardheight]{include/pics/neutrals/#1}};
+      {\includegraphics[height=0.54\cardheight]{include/pics/characters/#1}};
 
     \fill[\brackgroundColor] (-0.12\cardwidth,0.5\cardheight) rectangle (0.04\cardwidth,-1\cardheight); % left
     \fill[\brackgroundColor] (0.815\cardwidth,0.5\cardheight) rectangle (0.95\cardwidth,-1\cardheight); % right
     \fill[\brackgroundColor] (-0.12\cardwidth,-0.105\cardheight) rectangle (0.9\cardwidth,0.1\cardheight); % top
     \fill[\brackgroundColor] (-0.12\cardwidth,-0.575\cardheight) rectangle (0.9\cardwidth,-1\cardheight); % bot
 
-    \node[opacity=0.8,inner sep=0pt] at (current page.center)
+    \node[opacity=\backgroundOpacity,inner sep=0pt] at (current page.center)
       {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/neutral_short}};
     % \stringlength{}
     \node[opacity=1,inner sep=0pt, anchor=west] at (-0.08\cardwidth,-0.05\cardheight)
@@ -317,7 +336,7 @@
     \fill[\brackgroundColor] (-0.12\cardwidth,-0.058\cardheight) rectangle (0.9\cardwidth,0.1\cardheight); % top
     \fill[\brackgroundColor] (-0.12\cardwidth,-0.55\cardheight) rectangle (0.9\cardwidth,-1\cardheight); % bot
 
-    \node[opacity=0.8,inner sep=0pt] at (current page.center)
+    \node[opacity=\backgroundOpacity,inner sep=0pt] at (current page.center)
       {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/spell.png}};
   \end{tikzpicture}
 }
@@ -355,7 +374,7 @@
     \fill[\brackgroundColor] (-0.12\cardwidth,-0.054\cardheight) rectangle (0.9\cardwidth,0.1\cardheight); % top
     \fill[\brackgroundColor] (-0.12\cardwidth,-0.55\cardheight) rectangle (0.9\cardwidth,-1\cardheight); % bot
 
-    \node[opacity=0.8,inner sep=0pt] at (current page.center)
+    \node[opacity=\backgroundOpacity,inner sep=0pt] at (current page.center)
       {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/equipment.png}};
   \end{tikzpicture}
 }
@@ -395,7 +414,7 @@
     \fill[\brackgroundColor] (-0.12\cardwidth,-0.054\cardheight) rectangle (0.9\cardwidth,0.1\cardheight); % top
     \fill[\brackgroundColor] (-0.12\cardwidth,-0.55\cardheight) rectangle (0.9\cardwidth,-1\cardheight); % bot
 
-    \node[opacity=0.8,inner sep=0pt] at (current page.center)
+    \node[opacity=\backgroundOpacity,inner sep=0pt] at (current page.center)
       {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/equipment-shield.png}};
   \end{tikzpicture}
 }
@@ -434,7 +453,7 @@
     \fill[\brackgroundColor] (-0.12\cardwidth,-0.054\cardheight) rectangle (0.9\cardwidth,0.1\cardheight); % top
     \fill[\brackgroundColor] (-0.12\cardwidth,-0.55\cardheight) rectangle (0.9\cardwidth,-1\cardheight); % bot
 
-    \node[opacity=0.8,inner sep=0pt] at (current page.center)
+    \node[opacity=\backgroundOpacity,inner sep=0pt] at (current page.center)
       {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/equipment-weapon.png}};
   \end{tikzpicture}
 }
@@ -465,7 +484,7 @@
       {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/decks.jpg}};
     \node[opacity=1,inner sep=0pt] at (0.4\cardwidth,-0.33\cardheight)
       {\includegraphics[height=0.54\cardheight]{include/pics/decks/#1}};
-    \node[opacity=0.8,inner sep=0pt] at (current page.center)
+    \node[opacity=\backgroundOpacity,inner sep=0pt] at (current page.center)
       {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/event.png}};
   \end{tikzpicture}
 }
@@ -502,7 +521,7 @@
     \fill[\brackgroundColor] (-0.12\cardwidth,-0.054\cardheight) rectangle (0.9\cardwidth,0.1\cardheight); % top
     \fill[\brackgroundColor] (-0.12\cardwidth,-0.55\cardheight) rectangle (0.9\cardwidth,-1\cardheight); % bot
 
-    \node[opacity=0.8,inner sep=0pt] at (current page.center)
+    \node[opacity=\backgroundOpacity,inner sep=0pt] at (current page.center)
       {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/spell.png}};
   \end{tikzpicture}
 }
