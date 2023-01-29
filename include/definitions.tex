@@ -2,7 +2,7 @@
 \newcommand\cardwidth{\linewidth}
 \newcommand\cardheight{\pageheight}
 \newcommand\brackgroundColor{gray} % gray
-\def\scrollOneThresh{10}
+\def\scrollOneThresh{8}
 \def\backgroundOpacity{1}
 
 % card evironment
@@ -15,16 +15,16 @@
 
 %% #2 card class:
 %%% characters:
-%%%% orc -> DONE
-%%%% elf -> DONE
-%%%% dwarf -> DONE
+%%%% orc
+%%%% elf
+%%%% dwarf
 %%%% undead
-%%%% neutral -> DONE
+%%%% neutral
 %%% in play cards:
-%%%% equipment -> DONE
-%%%% event -> DONE
-%%%% enchantment -> DONE
-%%%% spell -> DONE
+%%%% equipment
+%%%% event
+%%%% enchantment
+%%%% spell
 
 %   #3 - image name
 
@@ -44,6 +44,28 @@
     \put(\LenToUnit{#1\cardwidth},\LenToUnit{#2\cardheight}){\vtop{{\null}\parbox{#4\cardwidth}{#3}}}
   }
 }
+
+\newcommand{\placeScroll}[3]{
+  \node[opacity=1,inner sep=0pt] at (#1\cardwidth,-#2\cardheight)
+    {\includegraphics[height=0.08\cardheight]{include/misc/scroll_#3.png}};
+}
+
+\newcommand{\placeBaseLayer}[1]{
+  \node[opacity=1,inner sep=0pt] at (current page.center)
+    {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/#1.jpg}};
+}
+
+ % adds Noemi's illustrations, coordinates (1,2), relative size (3) and file name (4) are specified within classes
+\newcommand{\placeIllustration}[4]{
+  \node[opacity=1,inner sep=0pt] at (#1\cardwidth,-#2\cardheight)
+    {\includegraphics[height=#3\cardheight]{#4}};
+}
+
+\newcommand{\placeLayout}[1]{
+  \node[opacity=\backgroundOpacity,inner sep=0pt] at (current page.center)
+    {\includegraphics[width=\cardwidth,height=\cardheight]{#1}};
+}
+
 
 %% place a text box
 % \newcommand{\placewesttextbox}[4]{
@@ -77,7 +99,7 @@
     \gdef\hpBoxsize{0.1}
 
     \gdef\textX{0.25}
-    \gdef\textY{0.26}
+    \gdef\textY{0.24}
     \gdef\textBoxsize{0.65}
 
     \setOrcBackground{#1}
@@ -85,30 +107,19 @@
 
 \newcommand{\setOrcBackground}[1]{
   \begin{tikzpicture}[overlay, remember picture]
-    \node[opacity=1,inner sep=0pt] at (current page.center)
-      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/characters.jpg}};
-    \node[opacity=1,inner sep=0pt] at (0.457\cardwidth,-0.36\cardheight)
-      {\includegraphics[height=0.54\cardheight]{include/pics/characters/#1}};
 
-    \fill[\brackgroundColor] (-0.12\cardwidth,0.5\cardheight) rectangle (0.1\cardwidth,-1\cardheight); % left
-    \fill[\brackgroundColor] (0.805\cardwidth,0.5\cardheight) rectangle (0.95\cardwidth,-1\cardheight); % right
-    \fill[\brackgroundColor] (-0.12\cardwidth,-0.054\cardheight) rectangle (0.9\cardwidth,0.1\cardheight); % top
-    \fill[\brackgroundColor] (-0.12\cardwidth,-0.65\cardheight) rectangle (0.9\cardwidth,-1\cardheight); % bot
-
-    \node[opacity=\backgroundOpacity,inner sep=0pt] at (current page.center)
-      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/orc}};
+    \placeBaseLayer{characters} % adds neutral canvas, probably could be skipped
+    \placeIllustration{0.457}{0.36}{0.54}{include/pics/characters/#1} % adds Noemi's illustrations
+    \placeLayout{include/background/orc}
 
     \StrLen{#1}[\picNameLen]
     \ifthenelse{\picNameLen > \scrollOneThresh}{
-      \node[opacity=1,inner sep=0pt] at (0.17\cardwidth,-0.05\cardheight)
-      {\includegraphics[width=0.5\cardwidth]{include/misc/scroll_1.png}};
+      \placeScroll{0.17}{0.05}{2}
     }{
-      \node[opacity=1,inner sep=0pt] at (0.17\cardwidth,-0.05\cardheight)
-      {\includegraphics[width=0.35\cardwidth]{include/misc/scroll_2.png}};
+      \placeScroll{0.17}{0.05}{1}
     }
 
-    \node[opacity=1,inner sep=0pt] at (0.55\cardwidth,-0.63\cardheight)
-    {\includegraphics[width=0.5\cardwidth]{include/misc/scroll_1.png}};
+    \placeScroll{0.55}{0.63}{1}
 
   \end{tikzpicture}
 }
@@ -121,7 +132,7 @@
     \gdef\nameY{0.948}
     \gdef\nameBoxsize{0.4}
 
-    \gdef\raceX{0.51}
+    \gdef\raceX{0.55}
     \gdef\raceY{0.35}
     \gdef\raceBoxsize{0.3}
 
@@ -130,7 +141,7 @@
     \gdef\hpBoxsize{0.1}
 
     \gdef\textX{0.26}
-    \gdef\textY{0.23}
+    \gdef\textY{0.22}
     \gdef\textBoxsize{0.6}
 
     \setDwarfBackground{#1}
@@ -138,30 +149,20 @@
 
 \newcommand{\setDwarfBackground}[1]{
   \begin{tikzpicture}[overlay, remember picture]
-    \node[opacity=1,inner sep=0pt] at (current page.center)
-      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/characters.jpg}};
-    \node[opacity=1,inner sep=0pt] at (0.457\cardwidth,-0.36\cardheight)
-      {\includegraphics[height=0.54\cardheight]{include/pics/characters/#1}};
 
-    \fill[\brackgroundColor] (-0.12\cardwidth,0.5\cardheight) rectangle (0.05\cardwidth,-1\cardheight); % left
-    \fill[\brackgroundColor] (0.805\cardwidth,0.5\cardheight) rectangle (0.95\cardwidth,-1\cardheight); % right
-    \fill[\brackgroundColor] (-0.12\cardwidth,-0.11\cardheight) rectangle (0.9\cardwidth,0.13\cardheight); % top
-    \fill[\brackgroundColor] (-0.12\cardwidth,-0.65\cardheight) rectangle (0.9\cardwidth,-1\cardheight); % bot
-
-    \node[opacity=\backgroundOpacity,inner sep=0pt] at (current page.center)
-      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/dwarf}};
+    \placeBaseLayer{characters}
+    \placeIllustration{0.457}{0.38}{0.54}{include/pics/characters/#1}
+    \placeLayout{include/background/dwarf}
 
     \StrLen{#1}[\picNameLen]
     \ifthenelse{\picNameLen > \scrollOneThresh}{
-      \node[opacity=1,inner sep=0pt] at (0.17\cardwidth,-0.05\cardheight)
-      {\includegraphics[width=0.5\cardwidth]{include/misc/scroll_1.png}};
+      \placeScroll{0.17}{0.05}{2}
     }{
-      \node[opacity=1,inner sep=0pt] at (0.17\cardwidth,-0.05\cardheight)
-      {\includegraphics[width=0.35\cardwidth]{include/misc/scroll_2.png}};
+      \placeScroll{0.17}{0.05}{1}
     }
 
-    \node[opacity=1,inner sep=0pt] at (0.54\cardwidth,-0.65\cardheight)
-      {\includegraphics[width=0.5\cardwidth]{include/misc/scroll_1.png}};
+    \placeScroll{0.58}{0.65}{1}
+
   \end{tikzpicture}
 }
 
@@ -181,7 +182,7 @@
     \gdef\hpBoxsize{0.1}
 
     \gdef\textX{0.29}
-    \gdef\textY{0.23}
+    \gdef\textY{0.245}
     \gdef\textBoxsize{0.58}
 
     \setElfBackground{#1}
@@ -189,22 +190,20 @@
 
 \newcommand{\setElfBackground}[1]{
   \begin{tikzpicture}[overlay, remember picture]
-    \node[opacity=1,inner sep=0pt] at (current page.center)
-      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/characters.jpg}};
-    \node[opacity=1,inner sep=0pt] at (0.457\cardwidth,-0.36\cardheight)
-      {\includegraphics[height=0.54\cardheight]{include/pics/characters/#1}};
 
-    \fill[\brackgroundColor] (-0.12\cardwidth,0.5\cardheight) rectangle (0.08\cardwidth,-1\cardheight); % left
-    \fill[\brackgroundColor] (0.815\cardwidth,0.5\cardheight) rectangle (0.95\cardwidth,-1\cardheight); % right
-    \fill[\brackgroundColor] (-0.12\cardwidth,-0.105\cardheight) rectangle (0.9\cardwidth,0.1\cardheight); % top
-    \fill[\brackgroundColor] (-0.12\cardwidth,-0.64\cardheight) rectangle (0.9\cardwidth,-1\cardheight); % bot
+    \placeBaseLayer{characters}
+    \placeIllustration{0.457}{0.36}{0.54}{include/pics/characters/#1}
+    \placeLayout{include/background/elf}
 
-    \node[opacity=\backgroundOpacity,inner sep=0pt] at (current page.center)
-      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/elf}};
-    \node[opacity=1,inner sep=0pt] at (0.17\cardwidth,-0.05\cardheight)
-      {\includegraphics[width=0.35\cardwidth]{include/misc/scroll_2.png}};
-    \node[opacity=1,inner sep=0pt] at (0.55\cardwidth,-0.65\cardheight)
-      {\includegraphics[width=0.5\cardwidth]{include/misc/scroll_1.png}};
+    \StrLen{#1}[\picNameLen]
+    \ifthenelse{\picNameLen > \scrollOneThresh}{
+      \placeScroll{0.17}{0.05}{2}
+    }{
+      \placeScroll{0.17}{0.05}{1}
+    }
+
+    \placeScroll{0.57}{0.65}{1}
+
   \end{tikzpicture}
 }
 
@@ -216,7 +215,7 @@
     \gdef\nameY{0.948}
     \gdef\nameBoxsize{0.4}
 
-    \gdef\raceX{0.52}
+    \gdef\raceX{0.53}
     \gdef\raceY{0.35}
     \gdef\raceBoxsize{0.3}
 
@@ -224,31 +223,29 @@
     \gdef\hpY{0.94}
     \gdef\hpBoxsize{0.1}
 
-    \gdef\textX{0.27}
+    \gdef\textX{0.24}
     \gdef\textY{0.23}
-    \gdef\textBoxsize{0.58}
+    \gdef\textBoxsize{0.65}
 
     \setNeutralLongBackground{#1}
 }
 
 \newcommand{\setNeutralLongBackground}[1]{
   \begin{tikzpicture}[overlay, remember picture]
-    \node[opacity=1,inner sep=0pt] at (current page.center)
-      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/characters.jpg}};
-    \node[opacity=1,inner sep=0pt] at (0.457\cardwidth,-0.36\cardheight)
-      {\includegraphics[height=0.57\cardheight]{include/pics/characters/#1}};
 
-    \fill[\brackgroundColor] (-0.12\cardwidth,0.5\cardheight) rectangle (0.04\cardwidth,-1\cardheight); % left
-    \fill[\brackgroundColor] (0.815\cardwidth,0.5\cardheight) rectangle (0.95\cardwidth,-1\cardheight); % right
-    \fill[\brackgroundColor] (-0.12\cardwidth,-0.105\cardheight) rectangle (0.9\cardwidth,0.1\cardheight); % top
-    \fill[\brackgroundColor] (-0.12\cardwidth,-0.64\cardheight) rectangle (0.9\cardwidth,-1\cardheight); % bot
+    \placeBaseLayer{characters}
+    \placeIllustration{0.457}{0.36}{0.57}{include/pics/characters/#1}
+    \placeLayout{include/background/neutral_tall}
 
-    \node[opacity=\backgroundOpacity,inner sep=0pt] at (current page.center)
-      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/neutral_tall}};
-    \node[opacity=1,inner sep=0pt] at (0.17\cardwidth,-0.05\cardheight)
-      {\includegraphics[width=0.35\cardwidth]{include/misc/scroll_2.png}};
-    \node[opacity=1,inner sep=0pt] at (0.55\cardwidth,-0.65\cardheight)
-      {\includegraphics[width=0.5\cardwidth]{include/misc/scroll_1.png}};
+    \StrLen{#1}[\picNameLen]
+    \ifthenelse{\picNameLen > \scrollOneThresh}{
+      \placeScroll{0.17}{0.05}{2}
+    }{
+      \placeScroll{0.17}{0.05}{1}
+    }
+
+    \placeScroll{0.57}{0.65}{1}
+
   \end{tikzpicture}
 }
 
@@ -260,7 +257,7 @@
     \gdef\nameY{0.948}
     \gdef\nameBoxsize{0.4}
 
-    \gdef\raceX{0.51}
+    \gdef\raceX{0.53}
     \gdef\raceY{0.42}
     \gdef\raceBoxsize{0.3}
 
@@ -268,36 +265,29 @@
     \gdef\hpY{0.94}
     \gdef\hpBoxsize{0.1}
 
-    \gdef\textX{0.195}
+    \gdef\textX{0.191}
     \gdef\textY{0.305}
-    \gdef\textBoxsize{0.70}
+    \gdef\textBoxsize{0.71}
 
     \setNeutralShortBackground{#1}
 }
 
 \newcommand{\setNeutralShortBackground}[1]{
   \begin{tikzpicture}[overlay, remember picture]
-    \node[opacity=1,inner sep=0pt] at (current page.center)
-      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/characters.jpg}};
-    \node[opacity=1,inner sep=0pt] at (0.457\cardwidth,-0.36\cardheight)
-      {\includegraphics[height=0.54\cardheight]{include/pics/characters/#1}};
 
-    \fill[\brackgroundColor] (-0.12\cardwidth,0.5\cardheight) rectangle (0.04\cardwidth,-1\cardheight); % left
-    \fill[\brackgroundColor] (0.815\cardwidth,0.5\cardheight) rectangle (0.95\cardwidth,-1\cardheight); % right
-    \fill[\brackgroundColor] (-0.12\cardwidth,-0.105\cardheight) rectangle (0.9\cardwidth,0.1\cardheight); % top
-    \fill[\brackgroundColor] (-0.12\cardwidth,-0.575\cardheight) rectangle (0.9\cardwidth,-1\cardheight); % bot
+    \placeBaseLayer{characters}
+    \placeIllustration{0.457}{0.36}{0.54}{include/pics/characters/#1}
+    \placeLayout{include/background/neutral_short}
 
-    \node[opacity=\backgroundOpacity,inner sep=0pt] at (current page.center)
-      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/neutral_short}};
-    % \stringlength{}
-    \node[opacity=1,inner sep=0pt, anchor=west] at (-0.08\cardwidth,-0.05\cardheight)
-        {\includegraphics[width=0.48\cardwidth]{include/misc/scroll_1.png}};
-    % \node[opacity=1,inner sep=0pt,anchor=west] at (0.17\cardwidth,-0.05\cardheight)
-    %   {\includegraphics[width=0.35\cardwidth]{include/misc/scroll_2.png}};
-    % {\includegraphics[width=0.58\cardwidth,height=1.9em,keepaspectratio=false]{include/misc/scroll_1.png}};
+    \StrLen{#1}[\picNameLen]
+    \ifthenelse{\picNameLen > \scrollOneThresh}{
+      \placeScroll{0.08}{0.05}{2}
+    }{
+      \placeScroll{0.17}{0.05}{1}
+    }
 
-    \node[opacity=1,inner sep=0pt] at (0.54\cardwidth,-0.58\cardheight)
-      {\includegraphics[width=0.5\cardwidth]{include/misc/scroll_1.png}};
+    \placeScroll{0.57}{0.58}{1}
+
   \end{tikzpicture}
 }
 
@@ -317,7 +307,7 @@
     \gdef\raceBoxsize{0.3}
 
     \gdef\textX{0.14}
-    \gdef\textY{0.3}
+    \gdef\textY{0.26}
     \gdef\textBoxsize{0.7}
 
     \setSpellBackground{#1}
@@ -325,19 +315,11 @@
 
 \newcommand{\setSpellBackground}[1]{
   \begin{tikzpicture}[overlay, remember picture]
-    \node[opacity=1,inner sep=0pt] at (current page.center)
-      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/decks.jpg}};
-    \node[opacity=1,inner sep=0pt] at (0.4\cardwidth,-0.33\cardheight)
-      {\includegraphics[height=0.54\cardheight]{include/pics/decks/#1}};
 
-    % to mask overflowing images I am repaining every card gray before I typeset the rest on top of it
-    \fill[\brackgroundColor] (-0.12\cardwidth,0.5\cardheight) rectangle (0.0\cardwidth,-1\cardheight); % left
-    \fill[\brackgroundColor] (0.765\cardwidth,0.5\cardheight) rectangle (0.9\cardwidth,-1\cardheight); % right
-    \fill[\brackgroundColor] (-0.12\cardwidth,-0.058\cardheight) rectangle (0.9\cardwidth,0.1\cardheight); % top
-    \fill[\brackgroundColor] (-0.12\cardwidth,-0.55\cardheight) rectangle (0.9\cardwidth,-1\cardheight); % bot
+    \placeBaseLayer{decks}
+    \placeIllustration{0.4}{0.33}{0.54}{include/pics/decks/#1}
+    \placeLayout{include/background/spell}
 
-    \node[opacity=\backgroundOpacity,inner sep=0pt] at (current page.center)
-      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/spell.png}};
   \end{tikzpicture}
 }
 
@@ -347,7 +329,7 @@
 
 \newcommand{\setCardEquipment}[2]{
     \gdef\nameX{0.2}
-    \gdef\nameY{0.975}
+    \gdef\nameY{0.977}
     \gdef\nameBoxsize{0.6}
 
     \gdef\raceX{0.11}
@@ -355,7 +337,7 @@
     \gdef\raceBoxsize{0.3}
 
     \gdef\textX{0.14}
-    \gdef\textY{0.3}
+    \gdef\textY{0.26}
     \gdef\textBoxsize{0.7}
 
     \setEquipmentBackground{#1}
@@ -363,19 +345,11 @@
 
 \newcommand{\setEquipmentBackground}[1]{
   \begin{tikzpicture}[overlay, remember picture]
-    \node[opacity=1,inner sep=0pt] at (current page.center)
-      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/decks.jpg}};
-      \node[opacity=1,inner sep=0pt] at (0.4\cardwidth,-0.33\cardheight)
-        {\includegraphics[height=0.54\cardheight]{include/pics/decks/#1}};
 
-    % to mask overflowing images I am repaining every card gray before I typeset the rest on top of it
-    \fill[\brackgroundColor] (-0.12\cardwidth,0.5\cardheight) rectangle (-0.01\cardwidth,-1\cardheight); % left
-    \fill[\brackgroundColor] (0.77\cardwidth,0.5\cardheight) rectangle (0.9\cardwidth,-1\cardheight); % right
-    \fill[\brackgroundColor] (-0.12\cardwidth,-0.054\cardheight) rectangle (0.9\cardwidth,0.1\cardheight); % top
-    \fill[\brackgroundColor] (-0.12\cardwidth,-0.55\cardheight) rectangle (0.9\cardwidth,-1\cardheight); % bot
+    \placeBaseLayer{decks}
+    \placeIllustration{0.4}{0.33}{0.54}{include/pics/decks/#1}
+    \placeLayout{include/background/equipment}
 
-    \node[opacity=\backgroundOpacity,inner sep=0pt] at (current page.center)
-      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/equipment.png}};
   \end{tikzpicture}
 }
 
@@ -387,10 +361,10 @@
 
 \newcommand{\setCardEquipmentShield}[2]{
     \gdef\nameX{0.2}
-    \gdef\nameY{0.975}
+    \gdef\nameY{0.977}
     \gdef\nameBoxsize{0.6}
 
-    \gdef\raceX{0.16}
+    \gdef\raceX{0.2}
     \gdef\raceY{0.4}
     \gdef\raceBoxsize{0.3}
 
@@ -403,19 +377,13 @@
 
 \newcommand{\setEquipmentShieldBackground}[1]{
   \begin{tikzpicture}[overlay, remember picture]
-    \node[opacity=1,inner sep=0pt] at (current page.center)
-      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/decks.jpg}};
-      \node[opacity=1,inner sep=0pt] at (0.4\cardwidth,-0.33\cardheight)
-        {\includegraphics[height=0.54\cardheight]{include/pics/decks/#1}};
 
-    % to mask overflowing images I am repaining every card gray before I typeset the rest on top of it
-    \fill[\brackgroundColor] (-0.12\cardwidth,0.5\cardheight) rectangle (-0.01\cardwidth,-1\cardheight); % left
-    \fill[\brackgroundColor] (0.77\cardwidth,0.5\cardheight) rectangle (0.9\cardwidth,-1\cardheight); % right
-    \fill[\brackgroundColor] (-0.12\cardwidth,-0.054\cardheight) rectangle (0.9\cardwidth,0.1\cardheight); % top
-    \fill[\brackgroundColor] (-0.12\cardwidth,-0.55\cardheight) rectangle (0.9\cardwidth,-1\cardheight); % bot
+    \placeBaseLayer{decks}
+    \placeIllustration{0.4}{0.33}{0.54}{include/pics/decks/#1}
+    \placeLayout{include/background/equipment-shield.png}
 
-    \node[opacity=\backgroundOpacity,inner sep=0pt] at (current page.center)
-      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/equipment-shield.png}};
+    \placeScroll{0.23}{0.6}{3}
+
   \end{tikzpicture}
 }
 
@@ -426,15 +394,15 @@
 
 \newcommand{\setCardEquipmentWeapon}[2]{
     \gdef\nameX{0.2}
-    \gdef\nameY{0.975}
+    \gdef\nameY{0.977}
     \gdef\nameBoxsize{0.6}
 
-    \gdef\raceX{0.19}
+    \gdef\raceX{0.2}
     \gdef\raceY{0.4}
     \gdef\raceBoxsize{0.3}
 
     \gdef\textX{0.16}
-    \gdef\textY{0.28}
+    \gdef\textY{0.278}
     \gdef\textBoxsize{0.7}
 
     \setEquipmentWeaponBackground{#1}
@@ -442,19 +410,13 @@
 
 \newcommand{\setEquipmentWeaponBackground}[1]{
   \begin{tikzpicture}[overlay, remember picture]
-    \node[opacity=1,inner sep=0pt] at (current page.center)
-      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/decks.jpg}};
-      \node[opacity=1,inner sep=0pt] at (0.4\cardwidth,-0.33\cardheight)
-        {\includegraphics[height=0.54\cardheight]{include/pics/decks/#1}};
 
-    % to mask overflowing images I am repaining every card gray before I typeset the rest on top of it
-    \fill[\brackgroundColor] (-0.12\cardwidth,0.5\cardheight) rectangle (0.0\cardwidth,-1\cardheight); % left
-    \fill[\brackgroundColor] (0.77\cardwidth,0.5\cardheight) rectangle (0.95\cardwidth,-1\cardheight); % right
-    \fill[\brackgroundColor] (-0.12\cardwidth,-0.054\cardheight) rectangle (0.9\cardwidth,0.1\cardheight); % top
-    \fill[\brackgroundColor] (-0.12\cardwidth,-0.55\cardheight) rectangle (0.9\cardwidth,-1\cardheight); % bot
+    \placeBaseLayer{decks}
+    \placeIllustration{0.4}{0.33}{0.54}{include/pics/decks/#1}
+    \placeLayout{include/background/equipment-weapon.png}
 
-    \node[opacity=\backgroundOpacity,inner sep=0pt] at (current page.center)
-      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/equipment-weapon.png}};
+    \placeScroll{0.23}{0.6}{3}
+
   \end{tikzpicture}
 }
 
@@ -472,7 +434,7 @@
     \gdef\raceBoxsize{0.3}
 
     \gdef\textX{0.14}
-    \gdef\textY{0.3}
+    \gdef\textY{0.26}
     \gdef\textBoxsize{0.7}
 
     \setEventBackground{#1}
@@ -480,12 +442,11 @@
 
 \newcommand{\setEventBackground}[1]{
   \begin{tikzpicture}[overlay, remember picture]
-    \node[opacity=1,inner sep=0pt] at (current page.center)
-      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/decks.jpg}};
-    \node[opacity=1,inner sep=0pt] at (0.4\cardwidth,-0.33\cardheight)
-      {\includegraphics[height=0.54\cardheight]{include/pics/decks/#1}};
-    \node[opacity=\backgroundOpacity,inner sep=0pt] at (current page.center)
-      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/event.png}};
+
+    \placeBaseLayer{decks}
+    \placeIllustration{0.4}{0.33}{0.54}{include/pics/decks/#1}
+    \placeLayout{include/background/event.png}
+
   \end{tikzpicture}
 }
 
@@ -511,17 +472,10 @@
 
 \newcommand{\setEnchantmentBackground}[1]{
   \begin{tikzpicture}[overlay, remember picture]
-    \node[opacity=1,inner sep=0pt] at (current page.center)
-      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/decks.jpg}};
-    \node[opacity=1,inner sep=0pt] at (0.4\cardwidth,-0.33\cardheight)
-      {\includegraphics[height=0.54\cardheight]{include/pics/decks/#1}};
 
-    \fill[\brackgroundColor] (-0.12\cardwidth,0.5\cardheight) rectangle (0.0\cardwidth,-1\cardheight); % left
-    \fill[\brackgroundColor] (0.77\cardwidth,0.5\cardheight) rectangle (0.95\cardwidth,-1\cardheight); % right
-    \fill[\brackgroundColor] (-0.12\cardwidth,-0.054\cardheight) rectangle (0.9\cardwidth,0.1\cardheight); % top
-    \fill[\brackgroundColor] (-0.12\cardwidth,-0.55\cardheight) rectangle (0.9\cardwidth,-1\cardheight); % bot
+    \placeBaseLayer{decks}
+    \placeIllustration{0.4}{0.33}{0.54}{include/pics/decks/#1}
+    \placeLayout{include/background/spell.png}
 
-    \node[opacity=\backgroundOpacity,inner sep=0pt] at (current page.center)
-      {\includegraphics[width=\cardwidth,height=\cardheight]{include/background/spell.png}};
   \end{tikzpicture}
 }
