@@ -79,9 +79,7 @@
 \newcommand{\cardRace}[1]{\placetextbox{\raceX}{\raceY}{ \fontsize{8}{8.3}\selectfont\centerline{#1}}{\raceBoxsize}}
 \newcommand{\cardHP}[1]{\placetextbox{\hpX}{\hpY}{#1}{\hpBoxsize}}
 \newcommand{\cardText}[1]{ \placetextbox{\textX}{\textY}{ \fontsize{7}{8}\selectfont \centering #1 }{\textBoxsize} }
-\newcommand{\cardDoubleText}[2]{ \placetextbox{\textX}{\textY}{\fontsize{7}{7.3}\selectfont \centering #1 \newline \includegraphics[width=\cardwidth]{include/misc/simple-divider.png}\newline #2 }{\textBoxsize} }
-
-
+\newcommand{\cardDoubleText}[2]{ \placetextbox{\textX}{\textY}{\fontsize{7}{7.3}\selectfont \centering #1 \linebreak \includegraphics[width=\cardwidth]{include/misc/simple-divider.png}\linebreak #2 }{\textBoxsize} }
 
 %% ORCS
 
@@ -267,7 +265,8 @@
 
     \gdef\textX{0.191}
     \gdef\textY{0.305}
-    \gdef\textBoxsize{0.71}
+
+    \gdef\textBoxsize{0.7}
 
     \setNeutralShortBackground{#1}
 }
