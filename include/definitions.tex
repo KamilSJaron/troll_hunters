@@ -1,7 +1,6 @@
 %% variables
 \newcommand\cardwidth{\linewidth}
 \newcommand\cardheight{\pageheight}
-\newcommand\brackgroundColor{gray} % gray
 \def\scrollOneThresh{8}
 \def\backgroundOpacity{1}
 
@@ -32,6 +31,8 @@
 \newenvironment{card}[3]
     {
         \csname setCard#2\endcsname{#3}{#1}
+        \gdef\name{#3}
+        \gdef\class{#2}
     }
     {
         \newpage
@@ -45,9 +46,35 @@
   }
 }
 
+% equipment -- shield
+
+\newcommand{\placeEquipmentScroll}[1]{
+   \StrLen{#1}[\raceLen]
+%   \ifthenelse{\picNameLen > \scrollOneThresh}{
+    \ifthenelse{\raceLen > 17}{
+        \ifthenelse{\raceLen < 20}{
+        \placeScroll{0.2}{0.6}{3}
+      }{
+        \placeScroll{0.2}{0.6}{6}
+      }
+    } {
+      \ifthenelse{\raceLen < 12}{
+        \placeScroll{0.2}{0.6}{1}
+      } {
+        \placeScroll{0.2}{0.6}{2}
+      }
+    }
+}
+
 \newcommand{\placeScroll}[3]{
   \node[opacity=1,inner sep=0pt] at (#1\cardwidth,-#2\cardheight)
     {\includegraphics[height=0.08\cardheight]{include/misc/scroll_#3.png}};
+}
+
+\newcommand{\placeTitleScroll}{
+  \node[opacity=1,inner sep=0pt] at (0.38\cardwidth,-0.027\cardheight)
+    % scroll_4_light?
+    {\includegraphics[height=0.097\cardheight]{include/misc/scroll_4.png}};
 }
 
 \newcommand{\placeBaseLayer}[1]{
@@ -66,19 +93,23 @@
     {\includegraphics[width=\cardwidth,height=\cardheight]{#1}};
 }
 
-
-%% place a text box
-% \newcommand{\placewesttextbox}[4]{
-%   \setbox0=\hbox{#3}
-%   \AddToShipoutPictureFG*{
-%     \put(\LenToUnit{#1\cardwidth},\LenToUnit{#2\cardheight}){\vtop{{\null}\parbox{#4\cardwidth}{#3}}}
-%   }
-% }
-
 \newcommand{\cardName}[1]{\placetextbox{\nameX}{\nameY}{\centerline{#1}}{\nameBoxsize}}
-\newcommand{\cardRace}[1]{\placetextbox{\raceX}{\raceY}{ \fontsize{8}{8.3}\selectfont\centerline{#1}}{\raceBoxsize}}
+\newcommand{\cardRace}[1]{
+  % this gets triggered only for equipment (and places the Equipment scroll)
+  \ifthenelse{\equal{\class}{Equipment}}{
+    \begin{tikzpicture}[overlay, remember picture]
+      \placeEquipmentScroll{#1} % to be less cluky I removed the decisionmaking of the scroll size in a separated function
+    \end{tikzpicture}
+  }{  }
+  \placetextbox{\raceX}{\raceY}{ \fontsize{8}{8.3}\selectfont\centerline{#1}}{\raceBoxsize}
+}
+
 \newcommand{\cardHP}[1]{\placetextbox{\hpX}{\hpY}{#1}{\hpBoxsize}}
-\newcommand{\cardText}[1]{ \placetextbox{\textX}{\textY}{ \fontsize{7}{8}\selectfont \centering #1 }{\textBoxsize} }
+
+\newcommand{\cardText}[1]{
+  \placetextbox{\textX}{\textY}{ \fontsize{7}{8}\selectfont \centering #1 }{\textBoxsize}
+}
+
 \newcommand{\cardDoubleText}[2]{ \placetextbox{\textX}{\textY}{\fontsize{7}{7.3}\selectfont \centering #1 \linebreak \includegraphics[width=\cardwidth]{include/misc/simple-divider.png}\linebreak #2 }{\textBoxsize} }
 
 %% ORCS
@@ -152,14 +183,13 @@
     \placeIllustration{0.457}{0.38}{0.54}{include/pics/characters/#1}
     \placeLayout{include/background/dwarf}
 
+    \placeScroll{0.58}{0.65}{1}
     \StrLen{#1}[\picNameLen]
     \ifthenelse{\picNameLen > \scrollOneThresh}{
-      \placeScroll{0.17}{0.05}{2}
+        \placeScroll{0.17}{0.05}{2}
     }{
-      \placeScroll{0.17}{0.05}{1}
+        \placeScroll{0.17}{0.05}{1}
     }
-
-    \placeScroll{0.58}{0.65}{1}
 
   \end{tikzpicture}
 }
@@ -301,7 +331,7 @@
     \gdef\nameY{0.975}
     \gdef\nameBoxsize{0.6}
 
-    \gdef\raceX{0.12}
+    \gdef\raceX{0.18}
     \gdef\raceY{0.4}
     \gdef\raceBoxsize{0.3}
 
@@ -317,7 +347,10 @@
 
     \placeBaseLayer{decks}
     \placeIllustration{0.4}{0.33}{0.54}{include/pics/decks/#1}
-    \placeLayout{include/background/spell}
+    \placeLayout{include/background/spell_no_scroll}
+
+    \placeTitleScroll
+    \placeScroll{0.22}{0.6}{1}
 
   \end{tikzpicture}
 }
@@ -331,7 +364,7 @@
     \gdef\nameY{0.977}
     \gdef\nameBoxsize{0.6}
 
-    \gdef\raceX{0.11}
+    \gdef\raceX{0.28}
     \gdef\raceY{0.4}
     \gdef\raceBoxsize{0.3}
 
@@ -349,72 +382,7 @@
     \placeIllustration{0.4}{0.33}{0.54}{include/pics/decks/#1}
     \placeLayout{include/background/equipment}
 
-  \end{tikzpicture}
-}
-
-
-%%%%%%%%%%%%%
-% Equipment %
-%  SHIELD   %
-%%%%%%%%%%%%%
-
-\newcommand{\setCardEquipmentShield}[2]{
-    \gdef\nameX{0.2}
-    \gdef\nameY{0.977}
-    \gdef\nameBoxsize{0.6}
-
-    \gdef\raceX{0.2}
-    \gdef\raceY{0.4}
-    \gdef\raceBoxsize{0.3}
-
-    \gdef\textX{0.16}
-    \gdef\textY{0.28}
-    \gdef\textBoxsize{0.7}
-
-    \setEquipmentShieldBackground{#1}
-}
-
-\newcommand{\setEquipmentShieldBackground}[1]{
-  \begin{tikzpicture}[overlay, remember picture]
-
-    \placeBaseLayer{decks}
-    \placeIllustration{0.4}{0.33}{0.54}{include/pics/decks/#1}
-    \placeLayout{include/background/equipment-shield.png}
-
-    \placeScroll{0.23}{0.6}{3}
-
-  \end{tikzpicture}
-}
-
-%%%%%%%%%%%%%
-% Equipment %
-%  WEAPON   %
-%%%%%%%%%%%%%
-
-\newcommand{\setCardEquipmentWeapon}[2]{
-    \gdef\nameX{0.2}
-    \gdef\nameY{0.977}
-    \gdef\nameBoxsize{0.6}
-
-    \gdef\raceX{0.2}
-    \gdef\raceY{0.4}
-    \gdef\raceBoxsize{0.3}
-
-    \gdef\textX{0.16}
-    \gdef\textY{0.278}
-    \gdef\textBoxsize{0.7}
-
-    \setEquipmentWeaponBackground{#1}
-}
-
-\newcommand{\setEquipmentWeaponBackground}[1]{
-  \begin{tikzpicture}[overlay, remember picture]
-
-    \placeBaseLayer{decks}
-    \placeIllustration{0.4}{0.33}{0.54}{include/pics/decks/#1}
-    \placeLayout{include/background/equipment-weapon.png}
-
-    \placeScroll{0.23}{0.6}{3}
+    \placeTitleScroll
 
   \end{tikzpicture}
 }
@@ -428,7 +396,7 @@
     \gdef\nameY{0.975}
     \gdef\nameBoxsize{0.6}
 
-    \gdef\raceX{0.12}
+    \gdef\raceX{0.18}
     \gdef\raceY{0.4}
     \gdef\raceBoxsize{0.3}
 
@@ -444,7 +412,10 @@
 
     \placeBaseLayer{decks}
     \placeIllustration{0.4}{0.33}{0.54}{include/pics/decks/#1}
-    \placeLayout{include/background/event.png}
+    \placeLayout{include/background/event_no_scroll.png}
+
+    \placeTitleScroll
+    \placeScroll{0.22}{0.6}{1}
 
   \end{tikzpicture}
 }
@@ -458,12 +429,12 @@
     \gdef\nameY{0.975}
     \gdef\nameBoxsize{0.6}
 
-    \gdef\raceX{0.12}
+    \gdef\raceX{0.21}
     \gdef\raceY{0.4}
     \gdef\raceBoxsize{0.3}
 
     \gdef\textX{0.14}
-    \gdef\textY{0.3}
+    \gdef\textY{0.27}
     \gdef\textBoxsize{0.7}
 
     \setEnchantmentBackground{#1}
@@ -474,7 +445,10 @@
 
     \placeBaseLayer{decks}
     \placeIllustration{0.4}{0.33}{0.54}{include/pics/decks/#1}
-    \placeLayout{include/background/spell.png}
+    \placeLayout{include/background/spell_no_scroll.png}
+
+    \placeTitleScroll
+    \placeScroll{0.25}{0.6}{2}
 
   \end{tikzpicture}
 }
