@@ -49,20 +49,27 @@
 % equipment -- shield
 
 \newcommand{\placeEquipmentScroll}[1]{
-   \StrLen{#1}[\raceLen]
-%   \ifthenelse{\picNameLen > \scrollOneThresh}{
+    \StrLen{#1}[\raceLen]
+
     \ifthenelse{\raceLen > 17}{
-        \ifthenelse{\raceLen < 20}{
-        \placeScroll{0.2}{0.6}{3}
-      }{
-        \placeScroll{0.2}{0.6}{6}
-      }
+      \placeScroll{0.115}{0.6}{3}
     } {
       \ifthenelse{\raceLen < 12}{
-        \placeScroll{0.2}{0.6}{1}
+        \placeScroll{0.115}{0.6}{1}
       } {
-        \placeScroll{0.2}{0.6}{2}
+        \placeScroll{0.115}{0.6}{2}
       }
+    }
+}
+
+\newcommand{\placeCursedRaceScroll}[1]{
+    \StrLen{#1}[\raceLen]
+
+    \ifthenelse{\raceLen < 20}{
+      \placeScroll{0.17}{0.6}{3}
+    }{
+    % placeCursedScroll
+      \placeScroll{0.17}{0.6}{6}
     }
 }
 
@@ -71,10 +78,23 @@
     {\includegraphics[height=0.08\cardheight]{include/misc/scroll_#3.png}};
 }
 
+\newcommand{\placeCursedScroll}[3]{
+  \node[opacity=0.7,inner sep=0pt] at (#1\cardwidth,-#2\cardheight)
+    {\includegraphics[height=0.09\cardheight]{include/misc/scroll_#3_cursed.png}};
+}
+
 \newcommand{\placeTitleScroll}{
   \node[opacity=1,inner sep=0pt] at (0.38\cardwidth,-0.027\cardheight)
     % scroll_4_light?
+    % {\includegraphics[height=0.097\cardheight]{include/misc/scroll_4_cursed.png}};
     {\includegraphics[height=0.097\cardheight]{include/misc/scroll_4.png}};
+}
+
+\newcommand{\placeCurse}[2]{
+  \node[opacity=1,inner sep=0pt] at (#1\cardwidth,-#2\cardheight)
+    {\includegraphics[height=0.13\cardheight]{include/misc/loc_curse.png}}; %
+  % \node[opacity=1,inner sep=0pt] at (#1\cardwidth,-#2\cardheight)
+  %   {\includegraphics[height=0.15\cardheight]{include/misc/curse.png}};
 }
 
 \newcommand{\placeBaseLayer}[1]{
@@ -101,6 +121,13 @@
       \placeEquipmentScroll{#1} % to be less cluky I removed the decisionmaking of the scroll size in a separated function
     \end{tikzpicture}
   }{  }
+  % this gets triggered only for cursed equipment (and places the Cursed scroll)
+  \ifthenelse{\equal{\class}{EquipmentCursed}}{
+    \begin{tikzpicture}[overlay, remember picture]
+      \placeCursedRaceScroll{#1} % to be less cluky I removed the decisionmaking of the scroll size in a separated function
+    \end{tikzpicture}
+  }{  }
+
   \placetextbox{\raceX}{\raceY}{ \fontsize{8}{8.3}\selectfont\centerline{#1}}{\raceBoxsize}
 }
 
@@ -320,6 +347,47 @@
   \end{tikzpicture}
 }
 
+%% Undead
+
+\newcommand{\setCardUndead}[2]{
+    \gdef\nameX{0.08}
+    \gdef\nameY{0.948}
+    \gdef\nameBoxsize{0.4}
+
+    \gdef\raceX{0.53}
+    \gdef\raceY{0.42}
+    \gdef\raceBoxsize{0.3}
+
+    \gdef\hpX{0.84}
+    \gdef\hpY{0.94}
+    \gdef\hpBoxsize{0.1}
+
+    \gdef\textX{0.23}
+    \gdef\textY{0.270}
+    \gdef\textBoxsize{0.6}
+
+    \setUndeadBackground{#1}
+}
+
+\newcommand{\setUndeadBackground}[1]{
+  \begin{tikzpicture}[overlay, remember picture]
+
+    \placeBaseLayer{characters}
+    \placeIllustration{0.457}{0.36}{0.54}{include/pics/undead/#1}
+    \placeLayout{include/background/undead}
+
+    \StrLen{#1}[\picNameLen]
+    \ifthenelse{\picNameLen > \scrollOneThresh}{
+      \placeScroll{0.17}{0.05}{2}
+    }{
+      \placeScroll{0.17}{0.05}{1}
+    }
+
+    \placeScroll{0.57}{0.58}{1}
+
+  \end{tikzpicture}
+}
+
 % DECK CARDS
 
 %%%%%%%%%%
@@ -364,7 +432,7 @@
     \gdef\nameY{0.977}
     \gdef\nameBoxsize{0.6}
 
-    \gdef\raceX{0.28}
+    \gdef\raceX{0.2}
     \gdef\raceY{0.4}
     \gdef\raceBoxsize{0.3}
 
@@ -381,6 +449,44 @@
     \placeBaseLayer{decks}
     \placeIllustration{0.4}{0.33}{0.54}{include/pics/decks/#1}
     \placeLayout{include/background/equipment}
+
+    \placeTitleScroll
+
+  \end{tikzpicture}
+}
+
+%%%%%%%%%%
+% Cursed %
+%%%%%%%%%%
+
+\newcommand{\setCardEquipmentCursed}[2]{
+    \gdef\nameX{0.2}
+    \gdef\nameY{0.977}
+    \gdef\nameBoxsize{0.6}
+
+    \gdef\raceX{0.28}
+    \gdef\raceY{0.4}
+    \gdef\raceBoxsize{0.3}
+
+    \gdef\textX{0.14}
+    \gdef\textY{0.26}
+    \gdef\textBoxsize{0.7}
+
+    \setEquipmentCursedBackground{#1}
+}
+
+\newcommand{\setEquipmentCursedBackground}[1]{
+  \begin{tikzpicture}[overlay, remember picture]
+
+    \placeBaseLayer{decks}
+    \placeIllustration{0.4}{0.33}{0.54}{include/pics/decks/#1}
+    % \placeLayout{include/background/equipment_cursed1}
+    \placeLayout{include/background/equipment_cursed2}
+    % \placeLayout{include/background/equipment}
+    % \placeLayout{include/background/curse_overlay}
+    % \placeCurse{0.76}{0.6}
+    \placeCurse{0.02}{0.87}
+    % \placeCurse{0.01}{0.85}
 
     \placeTitleScroll
 
