@@ -92,7 +92,7 @@
 
 \newcommand{\placeCurse}[2]{
   \node[opacity=1,inner sep=0pt] at (#1\cardwidth,-#2\cardheight)
-    {\includegraphics[height=0.13\cardheight]{include/misc/loc_curse.png}}; %
+    {\includegraphics[height=0.13\cardheight]{include/misc/loc_curse2.png}}; %
   % \node[opacity=1,inner sep=0pt] at (#1\cardwidth,-#2\cardheight)
   %   {\includegraphics[height=0.15\cardheight]{include/misc/curse.png}};
 }
@@ -358,8 +358,10 @@
     \gdef\raceY{0.42}
     \gdef\raceBoxsize{0.3}
 
-    \gdef\hpX{0.84}
+    \gdef\hpX{0.865}
     \gdef\hpY{0.94}
+    % \gdef\hpX{0.875}
+    % \gdef\hpY{0.94}
     \gdef\hpBoxsize{0.1}
 
     \gdef\textX{0.23}
@@ -374,7 +376,7 @@
 
     \placeBaseLayer{characters}
     \placeIllustration{0.457}{0.36}{0.54}{include/pics/undead/#1}
-    \placeLayout{include/background/undead}
+    \placeLayout{include/background/undead5}
 
     \StrLen{#1}[\picNameLen]
     \ifthenelse{\picNameLen > \scrollOneThresh}{
@@ -468,8 +470,8 @@
     \gdef\raceY{0.4}
     \gdef\raceBoxsize{0.3}
 
-    \gdef\textX{0.14}
-    \gdef\textY{0.26}
+    \gdef\textX{0.145}
+    \gdef\textY{0.28}
     \gdef\textBoxsize{0.7}
 
     \setEquipmentCursedBackground{#1}
@@ -481,7 +483,7 @@
     \placeBaseLayer{decks}
     \placeIllustration{0.4}{0.33}{0.54}{include/pics/decks/#1}
     % \placeLayout{include/background/equipment_cursed1}
-    \placeLayout{include/background/equipment_cursed2}
+    \placeLayout{include/background/equipment_cursed_v3}
     % \placeLayout{include/background/equipment}
     % \placeLayout{include/background/curse_overlay}
     % \placeCurse{0.76}{0.6}
